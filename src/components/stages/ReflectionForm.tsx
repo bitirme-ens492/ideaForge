@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Stage, ReflectionQuestion } from "@/types";
 import { useAppContext } from "@/context/AppContext";
@@ -9,6 +8,9 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Check, Loader } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { getFeedbackFromAI } from "@/lib/ai";
+import { toast } from "sonner";
+import { buildPrompt } from "@/lib/promptBuilder";
 
 type ReflectionFormProps = {
   stage: Stage;
@@ -16,31 +18,42 @@ type ReflectionFormProps = {
 };
 
 export const ReflectionForm: React.FC<ReflectionFormProps> = ({ stage, questions }) => {
-  const { progress, updateSubmission, submitForFeedback, completeStage } = useAppContext();
+  const { progress, updateSubmission, completeStage } = useAppContext();
   const submission = progress.submissions[stage];
   
-  // Initialize from stored progress or defaults
-  const [answers, setAnswers] = useState<Record<string, string>>(
-    submission?.answers || {}
-  );
-  
+  const [answers, setAnswers] = useState<Record<string, string>>(submission?.answers || {});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [feedback, setFeedback] = useState(submission?.feedback || null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // Update submission in context
-    updateSubmission(stage, { 
-      stageId: stage,
-      answers,
-      completed: false 
-    });
-    
-    // Get AI feedback
-    const feedback = await submitForFeedback(stage);
-    setFeedback(feedback);
+  
+    try {
+      const questionsAndAnswers = questions.map((q) => ({
+        question: q.question,
+        answer: answers[q.id] || "No answer provided.",
+      }));
+  
+      const prompt = buildPrompt(stage, questionsAndAnswers);
+  
+      const aiFeedback = await getFeedbackFromAI(prompt);
+  
+      setFeedback({
+        id: `feedback-${Date.now()}`,
+        createdAt: new Date(),
+        positiveFeedback: aiFeedback.positiveFeedback,
+        constructiveFeedback: aiFeedback.constructiveFeedback,
+        suggestions: [],
+        approved: true,
+      });
+  
+      toast.success("Feedback received!");
+    } catch (error) {
+      console.error("Error submitting feedback:", error);
+      toast.error("Failed to get feedback.");
+    }
+  
     setIsSubmitting(false);
   };
 
@@ -61,39 +74,33 @@ export const ReflectionForm: React.FC<ReflectionFormProps> = ({ stage, questions
               {question.question}
               {question.required && <span className="text-idea-600 ml-1">*</span>}
             </Label>
-            
-            {question.type === 'text' && (
+
+            {question.type === "text" && (
               <Input
                 id={question.id}
-                value={answers[question.id] || ''}
-                onChange={(e) => 
-                  setAnswers(prev => ({ ...prev, [question.id]: e.target.value }))
-                }
+                value={answers[question.id] || ""}
+                onChange={(e) => setAnswers((prev) => ({ ...prev, [question.id]: e.target.value }))}
                 placeholder={question.placeholder}
                 required={question.required}
                 className="w-full"
               />
             )}
-            
-            {question.type === 'textarea' && (
+
+            {question.type === "textarea" && (
               <Textarea
                 id={question.id}
-                value={answers[question.id] || ''}
-                onChange={(e) => 
-                  setAnswers(prev => ({ ...prev, [question.id]: e.target.value }))
-                }
+                value={answers[question.id] || ""}
+                onChange={(e) => setAnswers((prev) => ({ ...prev, [question.id]: e.target.value }))}
                 placeholder={question.placeholder}
                 required={question.required}
                 className="w-full min-h-24"
               />
             )}
-            
-            {question.type === 'multiChoice' && question.options && (
+
+            {question.type === "multiChoice" && question.options && (
               <RadioGroup
-                value={answers[question.id] || ''}
-                onValueChange={(value) => 
-                  setAnswers(prev => ({ ...prev, [question.id]: value }))
-                }
+                value={answers[question.id] || ""}
+                onValueChange={(value) => setAnswers((prev) => ({ ...prev, [question.id]: value }))}
                 className="space-y-2"
               >
                 {question.options.map((option, i) => (
@@ -106,11 +113,11 @@ export const ReflectionForm: React.FC<ReflectionFormProps> = ({ stage, questions
             )}
           </div>
         ))}
-        
-        {/* Submission Controls */}
+
+        {/* Submit Button */}
         <div className="flex justify-end space-x-4 pt-4">
-          <Button 
-            type="submit" 
+          <Button
+            type="submit"
             className="bg-idea-600 hover:bg-idea-700"
             disabled={!isFormComplete || isSubmitting || !!feedback}
           >
@@ -120,17 +127,17 @@ export const ReflectionForm: React.FC<ReflectionFormProps> = ({ stage, questions
                 Submitting...
               </>
             ) : (
-              'Submit for Feedback'
+              "Submit for Feedback"
             )}
           </Button>
         </div>
       </form>
-      
-      {/* AI Feedback Display */}
+
+      {/* AI Feedback */}
       {feedback && (
         <div className="space-y-4 mt-8">
           <h3 className="text-xl font-semibold text-gray-900">AI Feedback</h3>
-          
+
           <Alert variant="default" className="bg-green-50 border-green-200">
             <Check className="h-5 w-5 text-green-600" />
             <AlertTitle className="text-green-800">Positive Feedback</AlertTitle>
@@ -138,39 +145,17 @@ export const ReflectionForm: React.FC<ReflectionFormProps> = ({ stage, questions
               {feedback.positiveFeedback}
             </AlertDescription>
           </Alert>
-          
+
           <Alert variant="default" className="bg-blue-50 border-blue-200">
             <Check className="h-5 w-5 text-blue-600" />
             <AlertTitle className="text-blue-800">Constructive Feedback</AlertTitle>
             <AlertDescription className="text-blue-700">
-              {feedback.constructiveFeedback}
+              {feedback.constructiveFeedback || "No constructive feedback available."}
             </AlertDescription>
           </Alert>
-          
-          {feedback.suggestions && feedback.suggestions.length > 0 && (
-            <div className="mt-4">
-              <h4 className="font-medium text-gray-900 mb-2">Suggested Resources</h4>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {feedback.suggestions.map((resource) => (
-                  <div key={resource.id} className="p-4 border rounded-lg bg-white">
-                    <h5 className="font-medium">{resource.title}</h5>
-                    <p className="text-sm text-gray-600">{resource.description}</p>
-                    <a 
-                      href={resource.url} 
-                      className="text-idea-600 text-sm mt-2 inline-block hover:underline"
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                    >
-                      View Resource
-                    </a>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-          
+
           <div className="flex justify-end mt-6">
-            <Button 
+            <Button
               onClick={handleContinue}
               className="bg-idea-600 hover:bg-idea-700"
               disabled={!feedback.approved}

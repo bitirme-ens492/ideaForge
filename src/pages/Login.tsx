@@ -8,6 +8,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Footer } from "@/components/layout/Footer";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { supabase } from "@/lib/supabaseClient";
+
 
 export default function Login() {
   const navigate = useNavigate();
@@ -20,9 +22,19 @@ export default function Login() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-
-    // In a real app, this would integrate with your auth system
-    toast.error("Please integrate Supabase for authentication functionality");
+  
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: formData.email,
+      password: formData.password,
+    });
+  
+    if (error) {
+      toast.error(error.message);
+    } else {
+      toast.success("Successfully signed in!");
+      navigate("/journey"); // Başarılı giriş sonrası ana sayfaya yönlendirme
+    }
+  
     setIsLoading(false);
   };
 

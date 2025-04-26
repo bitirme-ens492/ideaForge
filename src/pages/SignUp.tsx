@@ -1,12 +1,12 @@
-
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Footer } from "@/components/layout/Footer";
 import { toast } from "sonner";
+import { supabase } from "@/lib/supabaseClient";
 
 export default function SignUp() {
   const [isLoading, setIsLoading] = useState(false);
@@ -17,16 +17,36 @@ export default function SignUp() {
     confirmPassword: "",
   });
 
+  const navigate = useNavigate();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+  
     if (formData.password !== formData.confirmPassword) {
       toast.error("Passwords do not match");
       return;
     }
-    
+  
     setIsLoading(true);
-    // In a real app, this would integrate with your auth system
-    toast.error("Please integrate Supabase for authentication functionality");
+  
+    const { data, error } = await supabase.auth.signUp({
+      email: formData.email,
+      password: formData.password,
+      options: {
+        data: {
+          full_name: formData.name, // İstersen name bilgisini metadata olarak ekliyoruz
+        },
+      },
+    });
+  
+    if (error) {
+      toast.error(error.message);
+    } else {
+      toast.success("Account created successfully!");
+      // Başarılı kayıt sonrası login sayfasına yönlendirebiliriz:
+      navigate("/login");
+    }
+  
     setIsLoading(false);
   };
 
