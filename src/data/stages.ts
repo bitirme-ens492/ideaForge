@@ -2,29 +2,29 @@ import { Stage, StageContent } from "@/types";
 
 export const stageContent: Record<Stage, StageContent> = {
   understand: {
-    title: "Understand the Problem Space",
-    description: "In this stage, you'll gain a deeper understanding of the problem space through various analytical frameworks and tools.",
-    videoUrl: "https://www.youtube.com/embed/d8qYf1FuHDg",
+    title: "Understanding Customer Needs",
+    description: "Learn how to uncover stakeholder needs before crafting a value proposition. Understand what drives their decisions—from corporate goals to personal motivations.",
+    videoUrl: "https://www.youtube.com/embed/2C-2v99paQM",
     articles: [
       {
-        id: "article-1",
-        title: "Problem Framing Guide",
-        description: "Learn how to define problem boundaries and identify key assumptions.",
-        url: "#",
-        type: "pdf"
+        id: "article-dschool",
+        title: "Discovery Stage Workshop",
+        description: "Make the discovery phase engaging and effective with design thinking workshops. Uncover unique customer values, spark innovation, and gain a competitive edge using a proven approach.",
+        url: "https://www.future-processing.com/blog/discovery-phase-powered-by-design-thinking-workshops/",
+        type: "article"
       },
       {
-        id: "article-2",
-        title: "Stakeholder Mapping",
-        description: "Techniques for identifying and analyzing stakeholders.",
-        url: "#",
-        type: "template"
+        id: "article-hbr",
+        title: "Unlock Faster Development with Design Thinking",
+        description: "Discover how a human-centered design thinking approach can cut development time, accelerate time-to-market, and clarify high-value problems. Learn why involving expert UX designers from the start is key to building impactful MVPs.",
+        url: "https://blog.convergentis.com/discovery-phase-in-design-thinking",
+        type: "article"
       },
       {
         id: "article-3",
-        title: "Jobs To Be Done Framework",
-        description: "Understanding user needs through the JTBD framework.",
-        url: "#",
+        title: "Reaching Alignment: The True Goal of the Discovery Phase",
+        description: "Every discovery aims to build consensus around the problem and its desired outcomes. Explore when discovery is needed, who’s involved, and what activities shape a successful outcome.",
+        url: "https://www.nngroup.com/articles/discovery-phase/",
         type: "article"
       }
     ],
@@ -83,28 +83,28 @@ export const stageContent: Record<Stage, StageContent> = {
   observe: {
     title: "Observe and Empathize with Users",
     description: "Apply various observation methods to gather deep insights about your users and their context.",
-    videoUrl: "https://www.youtube.com/embed/EpYgQM4ZZmY",
+    videoUrl: "https://www.youtube.com/embed/kkhoq6Hq12M",
     articles: [
       {
         id: "article-4",
-        title: "AEIOU Observation Method",
-        description: "A comprehensive framework for structured observations.",
-        url: "#",
-        type: "template"
+        title: "Observation in Design Thinking: Empathy Through Insight",
+        description: "This article explores the role of observation in design thinking, highlighting how understanding user behavior through field research and the AEIOU framework leads to more effective, user-centered solutions.",
+        url: "https://medium.com/@ashraful.ruet15/observation-in-the-design-thinking-process-44f065616f70",
+        type: "article"
       },
       {
         id: "article-5",
-        title: "Creating Effective Empathy Maps",
-        description: "Guide to building insightful empathy maps.",
-        url: "#",
+        title: "Design Thinking: Empathy and Observation in Action",
+        description: "This article explores how empathy and direct observation can transform strategy development by uncovering user needs, fostering curiosity, and guiding innovation through real-world insights.",
+        url: "https://blogs.perficient.com/2019/01/16/design-thinking-empathy-observation-pt-3/",
         type: "article"
       },
       {
         id: "article-6",
-        title: "Customer Journey Mapping",
-        description: "Tools and templates for journey mapping.",
-        url: "#",
-        type: "template"
+        title: "Observation: The Foundation of Effective Design",
+        description: "In this personal reflection, Maitreyee Kalaskar highlights how observation enhances creativity, sharpens design decisions, and helps avoid costly missteps—making it an essential part of a designer’s process and growth.",
+        url: "https://medium.com/@maitreyee_kal/observation-is-key-to-good-design-4a4a842032d0",
+        type: "article"
       }
     ],
     reflectionQuestions: [
@@ -162,41 +162,41 @@ export const stageContent: Record<Stage, StageContent> = {
   define: {
     title: "Define Point of View",
     description: "In this stage, you'll synthesize your research findings into a clear problem statement or 'Point of View' (POV) that will guide your solution development.",
-    videoUrl: "https://www.youtube.com/embed/sDQdx4ETx-w",
+    videoUrl: "https://www.youtube.com/embed/TNAdanuvwtc",
     articles: [
       {
         id: "article-5",
         title: "Crafting a Strong Problem Statement",
         description: "How to write a problem statement that drives innovation.",
-        url: "#pov",
+        url: "#https://steveblank.com/2010/01/25/whats-a-startup-first-principles/",
         type: "article"
       },
       {
         id: "article-6",
         title: "From Research to Insights",
         description: "Methods for synthesizing research data into actionable insights.",
-        url: "#",
-        type: "pdf"
+        url: "https://innovation.kaust.edu.sa/can-you-define-your-startup-in-one-sentence/",
+        type: "article"
       },
       {
         id: "article-7",
         title: "How Might We Questions",
         description: "Transform problem statements into opportunity questions.",
-        url: "#hmw",
-        type: "template"
+        url: "https://devsquad.com/blog/design-thinking-stages",
+        type: "article"
       },
       {
         id: "article-8",
         title: "Vision Cone Framework",
         description: "Define immediate, mid-term, and long-term vision for your idea.",
-        url: "#visioncone",
-        type: "template"
+        url: "https://www.studocu.vn/vn/document/royal-melbourne-institute-of-technology-vietnam/international-business/w4/65937195",
+        type: "article"
       },
       {
         id: "article-9",
         title: "Context Mapping Guide",
         description: "Tools for uncovering the broader context influencing user behavior.",
-        url: "#contextmapping",
+        url: "https://designthinkingforhealth.org/the-course/define/",
         type: "article"
       }
     ],
@@ -275,7 +275,7 @@ export const stageContent: Record<Stage, StageContent> = {
         title: "From Ideas to Concepts",
         description: "How to develop raw ideas into robust solution concepts.",
         url: "#",
-        type: "pdf"
+        type: "article"
       }
     ],
     reflectionQuestions: [
@@ -318,23 +318,23 @@ export const stageContent: Record<Stage, StageContent> = {
   },
   
   prototype: {
-    title: "Build Prototypes",
-    description: "This stage focuses on creating simple, low-fidelity representations of your solution to make your ideas tangible and testable. This is where you'll start the Build-Measure-Learn loop of Lean Startup.",
-    videoUrl: "https://www.youtube.com/embed/LxSWotvWQBs",
+    title: "Design Thinking: Prototype Phase",
+    description: "A quick, visual overview of the prototype step in design thinking with tips on how to create and test ideas.",
+    videoUrl: "https://www.youtube.com/embed/Q4MzT2MEDHA",
     articles: [
       {
         id: "article-9",
-        title: "Rapid Prototyping Methods",
-        description: "How to create quick, effective prototypes for testing.",
-        url: "#",
+        title: "22 Creative Ways to Prototype in Design Thinking",
+        description: "Explore fun and practical prototyping methods to quickly test and improve your ideas.",
+        url: "https://makeiterate.com/22-creative-ways-to-prototype-in-design-thinking/",
         type: "article"
       },
       {
         id: "article-10",
-        title: "The Build-Measure-Learn Loop",
-        description: "Understanding the core of the Lean Startup methodology.",
-        url: "#",
-        type: "pdf"
+        title: "Design Thinking: Prototype Stage Explained",
+        description: "Learn how to build and test prototypes to turn ideas into tangible, user-focused solutions.",
+        url: "https://www.mural.co/blog/design-thinking-prototype",
+        type: "article"
       }
     ],
     reflectionQuestions: [
@@ -379,20 +379,20 @@ export const stageContent: Record<Stage, StageContent> = {
   test: {
     title: "Test with Users",
     description: "In this stage, you'll validate your prototype with real users, collect feedback, and iterate based on what you learn. This completes the Build-Measure-Learn loop and may require multiple cycles.",
-    videoUrl: "https://www.youtube.com/embed/IZ3xI6DtuOY",
+    videoUrl: "https://www.youtube.com/embed/UVEQCNM6X-A",
     articles: [
       {
         id: "article-11",
-        title: "User Testing Best Practices",
-        description: "How to conduct effective user tests that generate valuable insights.",
-        url: "#",
+        title: "A Guide to the 5th Stage of Design Thinking",
+        description: "You wouldn’t buy a car without a test drive — the same goes for design thinking. To ensure usability, testing and user feedback are essential before moving forward.",
+        url: "https://www.mural.co/blog/design-thinking-testing",
         type: "article"
       },
       {
         id: "article-12",
-        title: "Iterative Design Process",
-        description: "How to use testing feedback to improve your design.",
-        url: "#",
+        title: "Stage 5 in the Design Thinking Process: Test",
+        description: "Testing is essential throughout the design thinking process. By regularly creating and testing prototypes—starting low-fidelity and evolving—you gain user insights and feedback to refine your designs.",
+        url: "https://www.interaction-design.org/literature/article/stage-5-in-the-design-thinking-process-test?srsltid=AfmBOopFuJp0_nHEmdqhlS6yocUI3Msm0w2YjCDcUlgMKBZrRs1UJlu-",
         type: "pdf"
       }
     ],
@@ -444,20 +444,20 @@ export const stageContent: Record<Stage, StageContent> = {
   reflect: {
     title: "Reflect and Plan Next Steps",
     description: "In this final stage, you'll review your entire innovation journey, synthesize key learnings, and plan your path forward to bring your solution to reality.",
-    videoUrl: "https://www.youtube.com/embed/ncwm61LP7vw",
+    videoUrl: "https://www.youtube.com/embed/x_uUidaszjw",
     articles: [
       {
         id: "article-13",
-        title: "From Prototype to Product",
-        description: "Steps to transform your validated prototype into a real product.",
-        url: "#",
+        title: "Strategic Reflection in Design Thinking: A Practical Guide",
+        description: "This article explores how reflection, particularly through techniques like affinity mapping, enhances the design thinking process and drives innovative, strategic decision-making across various contexts.",
+        url: "https://nicoledessain.medium.com/reflection-design-thinking-style-4f7a9d0663e9",
         type: "article"
       },
       {
         id: "article-14",
-        title: "Business Model Canvas",
-        description: "A template for defining your business model.",
-        url: "#",
+        title: "Fostering Integrative Learners through Critical Reflection and Design Thinking",
+        description: "This study explores how integrating critical reflection with design thinking cultivates learners with interdisciplinary problem-solving and innovation skills in educational settings.",
+        url: "https://www.researchgate.net/publication/273142716_Combining_Critical_Reflection_and_Design_Thinking_to_Develop_Integrative_Learners",
         type: "template"
       }
     ],

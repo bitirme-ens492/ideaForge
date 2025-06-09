@@ -10,7 +10,7 @@ import { ReflectionForm } from "./ReflectionForm";
 import { BusinessModelCanvas } from "@/components/business/BusinessModelCanvas";
 
 type StageContentProps = {
-  stage: Stage;
+  stage: Stage;s
 };
 
 export const StageContent: React.FC<StageContentProps> = ({ stage }) => {

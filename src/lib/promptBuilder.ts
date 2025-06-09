@@ -1,10 +1,18 @@
-export function buildPrompt(stageName: string, questionsAndAnswers: { question: string; answer: string }[]): string {
-    const questionsFormatted = questionsAndAnswers.map((qa, index) => 
-      `${index + 1}. Question: ${qa.question}\n   Answer: ${qa.answer}`
-    ).join("\n\n");
-  
-    return `
-  You are reviewing a user's responses for the "${stageName}" Stage of a design thinking entrepreneurship platform.
+export function buildPrompt(
+  stageName: string,
+  questionsAndAnswers: { question: string; answer: string }[],
+  previousStages: { stage: string; question: string; answer: string }[] = []
+): string {
+  const previousFormatted = previousStages.map((qa, index) => 
+    `${index + 1}. [${qa.stage}] Question: ${qa.question}\n   Answer: ${qa.answer}`
+  ).join("\n\n") || "No prior stages completed yet.";
+
+  const currentFormatted = questionsAndAnswers.map((qa, index) => 
+    `${index + 1}. Question: ${qa.question}\n   Answer: ${qa.answer}`
+  ).join("\n\n");
+
+  return `
+You are reviewing a user's responses for the "${stageName}" Stage of a design thinking entrepreneurship platform.
 
 Project Context:
 This platform is an AI-powered entrepreneurship development environment designed to help users systematically refine, validate, and scale their business ideas.
@@ -15,34 +23,21 @@ Each stage is supported by a modular learning architecture combined with real-ti
 
 The platform promotes hypothesis-driven innovation, encourages empirical learning, and provides structured evaluation frameworks to systematically reduce uncertainty and build scalable, sustainable business models.
 
-Feedback must assess not only linguistic quality but also strategic thinking, relevance to entrepreneurial challenges, clarity of hypotheses, and alignment with stage-specific objectives.
+Below is a summary of the user's previous progress across earlier stages:
+${previousFormatted}
 
-Technical depth, practical applicability, and entrepreneurial feasibility must be core evaluation criteria.
+Now, here are the user's responses for the current "${stageName}" stage:
+${currentFormatted}
 
-Give feedbacks according to the stage.
+Your job is to give feedback considering the current stage while also ensuring continuity, logical consistency, and strategic progression from earlier stages.
 
-Each question and its corresponding answer are provided below:
-${questionsFormatted}
+If the answer is irrelevant to the questions write: 
+"Please ensure to provide more detailed and insightful analysis for the questions." in both positiveFeedback and constructiveFeedback.
 
-This part is important if the answer is irrelevant to the questions write "Please ensure to provide more detailed and insightful analysis for the questions." for positiveFeedback and constructiveFeedback.
-
-
-Responsibilities:
-- Evaluate each answer separately according to its corresponding question.
-- Provide Positive Feedback for clear, thoughtful, and well-aligned answers.
-- Provide Constructive Feedback if the answer is vague, incomplete, or unrelated.
-- If an answer is meaningless or irrelevant:
-   - In BOTH positiveFeedback and constructiveFeedback, politely instruct the user to focus on the specific question and project context. 
-
- Respond STRICTLY in this JSON format:
+Respond in STRICT JSON format like this:
 {
-  "positiveFeedback": "....",
-  "constructiveFeedback": "...."
+  "positiveFeedback": "...",
+  "constructiveFeedback": "..."
 }
-
-Even if all answers are meaningless, you MUST still respond strictly in JSON format.
-Do NOT write anything outside JSON.
-
-  `;
-  }
-  
+`;
+}
